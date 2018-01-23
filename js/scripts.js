@@ -1,27 +1,47 @@
 // business logic
 var ages = ["<13", "13", "13-16", "17", "18+", "65+"];
-var movieTitles = ["Jumanji", "Maze Runner", "The Post", "12 Strong", "A Beautiful Planet", "Paddington 2", "Phantom Thread"]
+// var movieTitles = ["Jumanji", "Maze Runner", "The Post", "12 Strong", "A Beautiful Planet", "Paddington 2", "Phantom Thread"];
+var movieTitles = [];
 var showtimes = ["12:00", "14:00", "16:00", "18:00", "20:00", "22:00", "24:00"];
-var theaterNames = ["CENTURY CLACKAMAS TOWN CENTER", "OAK GROVE 8 CINEMAS", "MORELAND THEATRE", "REGAL HILLTOP 9 CINEMA", "CENTURY 16 EASTPORT PLAZA"];
+// var theaterNames = ["CENTURY CLACKAMAS TOWN CENTER", "OAK GROVE 8 CINEMAS", "MORELAND THEATRE", "REGAL HILLTOP 9 CINEMA", "CENTURY 16 EASTPORT PLAZA"];
+var theaterNames = [];
 var ratings = ["G", "PG", "PG-13", "R", "NC-17", "X"];
+var allMovies = [];
 
-function Movie(){
+function Ticket(movie, matineePrice, regularPrice, seniorPrice, seat){
+  this.movie = movie; // the movie the ticket is for
+  this.matineePrice = matineePrice; // matineePrice
+  this.regularPrice = regularPrice; // regular price
+  this.seniorPrice = seniorPrice; // senior discount price
+  this.seat = seat; // are there reserved seats?
+}
+
+
+function Dog(name, colors, age) {
+  this.name = name;
+  this.colors = colors;
+  this.age = age;
+}
+
+
+function Movie(name, rating, short, long, newRelease, theaters){
   this.name = name;
   this.rating = rating;
-  this.long = long;
   this.short = short;
-  this.release = release;
+  this.long = long;
+  this.newRelease = newRelease;  // boolean
+  this.theaters = theaters; // array of Theaters it's playing
 }
 
-function Theater (){
+function Theater (name, movies, address, showtimes, matinees){
   this.name = name;
-  this.movies = movies;
-  this.long = long;
-  this.short = short;
-  this.release = release;
+  this.movies = movies; // array of Movies playing here
+  this.long = address; // theater name and address
+  this.showtimes = showtimes; // showtimes from the Movies (can I do this???)   METHOD
+  this.matinees = matinees; // does this movie have matinee times? Check the movie release METHOD
 }
 
-Theater.prototype.canTheySeeIt = function(rating, age) {
+Movie.prototype.canTheySeeIt = function(rating, age) {
   // ages = ["<13", "13", "13-16", "17", "18+", "65+"];
   // alert("Got here!");
   var canSee = true;
@@ -42,6 +62,12 @@ Theater.prototype.canTheySeeIt = function(rating, age) {
   return canSee;
   }
 
+
+  function addMovieToList (name, rating, short, long, newRelease, theaters) { // input values from from somewhere
+    var myMovie = new Movie(name, rating, short, long, newRelease, theaters);
+    allMovies.push(myMovie);
+    console.log("Added: " + myMovie.name);
+  }
 
 function canTheySeeIt (rating, age) {
   // ages = ["<13", "13", "13-16", "17", "18+", "65+"];
@@ -113,28 +139,34 @@ function resetFields() {
     $('#formname')[0].reset(); // hash is form name
 }
 
+// function showMovies(){
+//   var movieTitlesOptions = "";
+//   var htmlString ="";
+//   for (var i=0; i< movieTitles.length; i++){
+//     movieTitlesOptions += "<option>" + movieTitles[i] +"</option>";
+//   }
+//   htmlString =  "<form name='showtimesChoice' id='showtimesChoice'>" +
+//                   "<select class='form-control' id='myShowtimes'>" +
+//                     movieTitlesOptions +
+//                   "</select>" +
+//                 "</form>";
+//   $("#movie").append(htmlString);
+// }
+
 function showMovies(){
-  // for (var i=0; i< movieTitles.length; i++){
-  //   var x = movieTitles[i] +"<br>"
-  //   // $("#movie").append(movieTitles[i]) + "<br>";
-  //   $("#movie").append(x);
-  //
-  // }
-
-
   var movieTitlesOptions = "";
   var htmlString ="";
   for (var i=0; i< movieTitles.length; i++){
-    movieTitlesOptions += "<option>" + movieTitles[i] +"</option>";
+    movieTitlesOptions += "<option>" + movieTitles[i].name +"</option>";
   }
-  htmlString =  "<form name='showtimesChoice' id='showtimesChoice'>" +
-                  "<select class='form-control' id='myShowtimes'>" +
+  htmlString =  "<form name='movieTitlesChoice' id='movieTitlesChoice'>" +
+                  "<select class='form-control' id='myMovieTitless'>" +
                     movieTitlesOptions +
                   "</select>" +
                 "</form>";
   $("#movie").append(htmlString);
-
 }
+
 
 function showAges(){
   var agesOptions = "";
@@ -164,11 +196,25 @@ function showShowtimes(){
   $("#showtimes").append(htmlString);
 }
 
+// function showTheaterNames(){
+//   var theaterNamesOptions = "";
+//   var htmlString ="";
+//   for (var i=0; i< theaterNames.length; i++){
+//     theaterNamesOptions += "<option>" + theaterNames[i] +"</option>";
+//   }
+//   htmlString =  "<form name='theaterNamesChoice' id='theaterNamesChoice'>" +
+//                   "<select class='form-control' id='mytheaterNames'>" +
+//                     theaterNamesOptions +
+//                   "</select>" +
+//                 "</form>";
+//   $("#theater").append(htmlString);
+// }
+
 function showTheaterNames(){
   var theaterNamesOptions = "";
   var htmlString ="";
   for (var i=0; i< theaterNames.length; i++){
-    theaterNamesOptions += "<option>" + theaterNames[i] +"</option>";
+    theaterNamesOptions += "<option>" + theaterNames[i].name +"</option>";
   }
   htmlString =  "<form name='theaterNamesChoice' id='theaterNamesChoice'>" +
                   "<select class='form-control' id='mytheaterNames'>" +
@@ -200,13 +246,6 @@ function showTheaterNames(){
 // change the movie
 // get the movies options (what theaters it's playing in, that theater's showtimes)
 
-
-
-
-
-
-
-
 // user interface logic
   $(document).ready(function() {
 
@@ -217,11 +256,10 @@ function showTheaterNames(){
     // alert("theaterNames:" + theaterNames);
     // alert("ratings:" + ratings);
 
-
-    $("#movie").html("<h3>" + movieTitles[0] +  "</h3>");
-    $("#theater").html("<h3>" +theaterNames[0] +  "</h3>");
+    $("#movie").html("<h3>MOVIES</h3>");
+    $("#theater").html("<h3>THEATERS</h3>");
     // $("#about").html("<h3>" + ages[0] +  "</h3>");
-    $("#showtimes").html("<h3>" + showtimes[0] +  "</h3>");
+    $("#showtimes").html("<h3>SHOWTIMES</h3>");
     var age = 13;
     var rating = "R";
 
@@ -270,4 +308,46 @@ function showTheaterNames(){
     //
     //   resetFields();
     // });
+
+    // var ticket = new Ticket("Jumanji", "7.50", "13.00", "8.00", "");
   });
+
+// Data
+//["Jumanji", "Maze Runner", "The Post", "12 Strong", "A Beautiful Planet", "Paddington 2", "Phantom Thread"]
+//["CENTURY CLACKAMAS TOWN CENTER", "OAK GROVE 8 CINEMAS", "MORELAND THEATRE", "REGAL HILLTOP 9 CINEMA", "CENTURY 16 EASTPORT PLAZA"];
+// var showtimes = ["12:00", "14:00", "16:00", "18:00", "20:00", "22:00", "24:00"];
+
+film0 = new Movie("Jumanji", "PG", "Welcome to the Jungle", "DESCRIPTION", true, ["CENTURY CLACKAMAS TOWN CENTER", "CENTURY 16 EASTPORT PLAZA", "REGAL HILLTOP 9 CINEMA"] );
+movieTitles.push(film0);
+film1 = new Movie("Maze Runner", "PG-13", "short desc", "DESCRIPTION", true, ["CENTURY CLACKAMAS TOWN CENTER","CENTURY 16 EASTPORT PLAZA", "REGAL HILLTOP 9 CINEMA"] );
+movieTitles.push(film1);
+film2 = new Movie("The Post", "R", "short desc", "DESCRIPTION", false, ["CENTURY CLACKAMAS TOWN CENTER","CENTURY 16 EASTPORT PLAZA", "OAK GROVE 8 CINEMAS", "MORELAND THEATRE"] );
+movieTitles.push(film2);
+film3 = new Movie("A Beautiful Planet", "G", "short desc", "DESCRIPTION", false, ["OMSI IMAX THEATER"] );
+movieTitles.push(film3);
+film4 = new Movie("Paddington 2", "PG", "short desc", "DESCRIPTION", false, ["CENTURY 16 EASTPORT PLAZA", "OAK GROVE 8 CINEMAS", "MORELAND THEATRE"] );
+movieTitles.push(film4);
+
+theater0 = new Theater("CENTURY CLACKAMAS TOWN CENTER", ["Jumanji", "Maze Runner", "The Post"], "123 Four Street, Clackamas, OR 97267", ["12:00", "14:00", "16:00", "18:00", "20:00"], true);
+theaterNames.push(theater0);
+theater1 = new Theater("OAK GROVE 8 CINEMAS", ["The Post", "Paddington 2"], "456 McLoughlin Blvd, Oak Grove, OR, 97267", ["12:00", "14:00", "16:00", "18:00"], false);
+theaterNames.push(theater1);
+theater2 = new Theater("MORELAND THEATRE", ["The Post", "Paddington 2"], "1010 West Moreland Blvd., Portland, OR, 97269", ["12:00", "14:00", "16:00", "18:00", "20:00", "22:00"], false);
+theaterNames.push(theater2);
+theater3 = new Theater("REGAL HILLTOP 9 CINEMA", ["Jumanji", "Maze Runner"], "90 Mollala Ave., Oregon City, OR, 97169", ["16:00", "18:00", "20:00", "22:00", "24:00"], false);
+theaterNames.push(theater3);
+theater4 = new Theater("CENTURY 16 EASTPORT PLAZA", ["Jumanji", "Maze Runner", "The Post", "Paddington 2"], "90 Mollala Ave., Oregon City, OR, 97169", ["16:00", "18:00", "20:00", "22:00", "24:00"], false);
+theaterNames.push(theater4);
+
+
+
+["CENTURY CLACKAMAS TOWN CENTER", "OAK GROVE 8 CINEMAS", "MORELAND THEATRE", "REGAL HILLTOP 9 CINEMA", "CENTURY 16 EASTPORT PLAZA"]
+
+
+
+// this.name = name;
+// this.rating = rating;
+// this.long = long;
+// this.short = short;
+// this.newRelease = newRelease;  // boolean
+// this.theaters = theaters; // array of Theaters it's playing
