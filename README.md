@@ -15,7 +15,7 @@ You can find this file at https://github.com/agro23/movie-tix
 
 ## Rules for the Movie Tickets assignment
 
-* Create a webpage where a user can select the name of a movie, the time of day that they would like to see the movie and their age. 
+* Create a webpage where a user can select the name of a movie, the time of day that they would like to see the movie and their age.
 
 * The webpage should let them know how much their movie ticket will cost, based on those three factors.
 
@@ -27,20 +27,74 @@ You can find this file at https://github.com/agro23/movie-tix
 
 ### _The following specs are included in the program:_
 
-* Form input, with 'Add' as submit button
-  INPUT: (Address)
-  OUTPUT: List of contact fullname(s) as active link to to that contact on the 'Contacts:' list)
+* Make basic HTML page template
 
-* Click "Another Address" button
-    Display new form piece for Address
-  INPUT: (Address, at bottom of form with new fields)
-  OUTPUT: Display new form pieces
+* Make list of ages in array (< 13, 13-16, >= 17)
+  INPUT: none
+  OUTPUT: ALERT list of ages
 
-* 'Contacts:' list displays any added user fullname
-  INPUT: Click on name
-  OUTPUT: Display Contact to upper right of screen
+* Make list of movie titles in array
+  INPUT: none  
+  OUTPUT: ALERT list of movies
 
-* Require fields in HTML form
+* Make list of showtimes in array
+  INPUT: none  
+  OUTPUT: ALERT list of showtimes
+
+* Make list of theater names in array
+  INPUT: none  
+  OUTPUT: ALERT list of theater names
+
+* Display List of ages:
+  INPUT: Choice of ages <13, 13-16, >=17
+  OUTOUT: You have chosen age  ALERT
+
+* Display list of movies
+  INPUT: Choice of Movie titles[]
+  OUTPUT: You have chosen (movie name)  ALERT
+
+* Display list of showtimes
+  INPUT: Choices of showtimes[]
+  OUTOUT: Show user's time choice  ALERT
+
+* Display list of Theaters
+  INPUT: Choices of theaters[]
+  OUTOUT: Show user's theater choice  ALERT
+
+* Check age
+  INPUT: age (dropdown menu: <13, 13-16, >=17)
+  OUTOUT: Can/Cannot see PG13 or R movies  ALERT
+
+* Create objects:
+
+  * Movie:
+    * name
+    * rating
+    * Long Description
+    * Short Description
+
+  * Theater:
+    * name
+    * list of Movies:
+      - (Note Movies here should be another object inheriting Movie properties)
+      * movie: array of Movie
+        * showtimes
+        * passes Boolean
+        * first run Boolean
+    * Ticket cost calculation method
+    * Can user see it? method.
+
+* Create HTML Form for dropdown menus displaying THEATER list, MOVIE list, SHOWTIMES list,  AGE list
+  INPUT: Select menu options
+  OUTUT: Display selected choice names in an HTML area
+
+* Create Movie panel HTML
+  OUTPUT: Movie, Theaters, SHOWTIMES
+
+* Create Theater panel HTML
+  OUTPUT: Movie, Theaters, SHOWTIMES
+
+* Require fields in HTML forms?
 
 * Refactor and clean up code
 
