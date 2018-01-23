@@ -45,33 +45,41 @@ You can find this file at https://github.com/agro23/movie-tix
   INPUT: none  
   OUTPUT: ALERT list of theater names
 
-* Display List of ages:
+* Make list of ratings in array
+  INPUT: none  
+  OUTPUT: ALERT list of ratings
+
+* Check age
+  INPUT: age (<13, 13-16, >=17)
+  OUTOUT: Can/Cannot see PG13 or R movies  CONSOLE.LOG
+
+* Check age from dropdown
+  INPUT: age (dropdown menu: <13, 13-16, >=17)
+  OUTOUT: Can/Cannot see PG13 or R movies  CONSOLE.LOG
+
+* Display List of ages:                          
   INPUT: Choice of ages <13, 13-16, >=17
-  OUTOUT: You have chosen age  ALERT
+  OUTOUT: You have chosen age  CONSOLE.LOG
 
-* Display list of movies
+* Display list of movies   
   INPUT: Choice of Movie titles[]
-  OUTPUT: You have chosen (movie name)  ALERT
+  OUTPUT: You have chosen (movie name)  CONSOLE.LOG
 
-* Display list of showtimes
+* Display list of showtimes     
   INPUT: Choices of showtimes[]
-  OUTOUT: Show user's time choice  ALERT
+  OUTOUT: Show user's time choice  CONSOLE.LOG
 
 * Display list of Theaters
   INPUT: Choices of theaters[]
-  OUTOUT: Show user's theater choice  ALERT
+  OUTOUT: Show user's theater choice  CONSOLE.LOG
 
-* Check age
-  INPUT: age (dropdown menu: <13, 13-16, >=17)
-  OUTOUT: Can/Cannot see PG13 or R movies  ALERT
-
-* Create objects:
-
+* Create objects: <---
   * Movie:
     * name
     * rating
     * Long Description
     * Short Description
+    * release date
 
   * Theater:
     * name
@@ -95,6 +103,8 @@ You can find this file at https://github.com/agro23/movie-tix
   OUTPUT: Movie, Theaters, SHOWTIMES
 
 * Require fields in HTML forms?
+
+* Convert showtimes to regular time.
 
 * Refactor and clean up code
 
