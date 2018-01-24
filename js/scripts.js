@@ -7,6 +7,10 @@ var showtimes = ["12:00", "14:00", "16:00", "18:00", "20:00", "22:00", "24:00"];
 var theaterNames = [];
 var ratings = ["G", "PG", "PG-13", "R", "NC-17", "X"];
 var allMovies = [];
+var currentTheater = 0;
+var movieIndex = 0;
+var theaterIndex=0;
+
 
 function Ticket(movie, matineePrice, regularPrice, seniorPrice, seat){
   this.movie = movie; // the movie the ticket is for
@@ -15,14 +19,6 @@ function Ticket(movie, matineePrice, regularPrice, seniorPrice, seat){
   this.seniorPrice = seniorPrice; // senior discount price
   this.seat = seat; // are there reserved seats?
 }
-
-
-function Dog(name, colors, age) {
-  this.name = name;
-  this.colors = colors;
-  this.age = age;
-}
-
 
 function Movie(name, rating, short, long, newRelease, theaters){
   this.name = name;
@@ -139,6 +135,17 @@ function resetFields() {
     $('#formname')[0].reset(); // hash is form name
 }
 
+function initialize(){
+  showAges();
+  showMovies(theater0);
+  showTheaterNames(film0.theaters);
+  movieIndex = 0;
+  theaterIndex = 0;
+  // showTheaterNames(theater0.movies[0]);
+
+  showShowtimes(theater0.showtimes);
+}
+
 // function showMovies(){
 //   var movieTitlesOptions = "";
 //   var htmlString ="";
@@ -153,20 +160,19 @@ function resetFields() {
 //   $("#movie").append(htmlString);
 // }
 
-function showMovies(){
+function showMovies(theater){
   var movieTitlesOptions = "";
   var htmlString ="";
-  for (var i=0; i< movieTitles.length; i++){
-    movieTitlesOptions += "<option>" + movieTitles[i].name +"</option>";
+  for (var i=0; i< theater.movies.length; i++){
+    movieTitlesOptions += "<option>" + theater.movies[i] +"</option>";
   }
   htmlString =  "<form name='movieTitlesChoice' id='movieTitlesChoice'>" +
-                  "<select class='form-control' id='myMovieTitless'>" +
+                  "<select class='form-control' id='myMovieTitles'>" +
                     movieTitlesOptions +
                   "</select>" +
                 "</form>";
   $("#movie").append(htmlString);
 }
-
 
 function showAges(){
   var agesOptions = "";
@@ -182,19 +188,20 @@ function showAges(){
   $("#about").append(htmlString);
 }
 
-function showShowtimes(){
+function showShowtimes(shows){
   var showtimesOptions = "";
   var htmlString ="";
-  for (var i=0; i< showtimes.length; i++){
-    showtimesOptions += "<option>" + showtimes[i] +"</option>";
+  for (var i=0; i< shows.length; i++){
+    showtimesOptions += "<option>" + shows[i] +"</option>";
   }
   htmlString =  "<form name='showtimesChoice' id='showtimesChoice'>" +
                   "<select class='form-control' id='myShowtimes'>" +
                     showtimesOptions +
                   "</select>" +
                 "</form>";
-  $("#showtimes").append(htmlString);
+  $("#showtimes").html(htmlString);
 }
+
 
 // function showTheaterNames(){
 //   var theaterNamesOptions = "";
@@ -210,18 +217,18 @@ function showShowtimes(){
 //   $("#theater").append(htmlString);
 // }
 
-function showTheaterNames(){
+function showTheaterNames(names){ // an array of theater names
   var theaterNamesOptions = "";
   var htmlString ="";
-  for (var i=0; i< theaterNames.length; i++){
-    theaterNamesOptions += "<option>" + theaterNames[i].name +"</option>";
+  for (var i=0; i< names.length; i++){
+    theaterNamesOptions += "<option>" + names[i] +"</option>";
   }
   htmlString =  "<form name='theaterNamesChoice' id='theaterNamesChoice'>" +
                   "<select class='form-control' id='mytheaterNames'>" +
                     theaterNamesOptions +
                   "</select>" +
                 "</form>";
-  $("#theater").append(htmlString);
+  $("#theater").html(htmlString);
 }
 
 // htmlString =  "<form name='ageChoice' id='ageChoice'>" +
@@ -258,22 +265,40 @@ function showTheaterNames(){
 
     $("#movie").html("<h3>MOVIES</h3>");
     $("#theater").html("<h3>THEATERS</h3>");
-    // $("#about").html("<h3>" + ages[0] +  "</h3>");
+    $("#about").html("<h3>HOW OLD ARE YOU?</h3>");
     $("#showtimes").html("<h3>SHOWTIMES</h3>");
     var age = 13;
     var rating = "R";
 
-    showMovies();
-    showAges();
-    showTheaterNames();
-    showShowtimes();
+    initialize();
 
       $(function() {
-         $("#ageChoice select").change(function()
+         $("#movieTitlesChoice select").change(function()
          {
+            var theaters =[];
+            var times = [];
              console.log("The select changed!");
-             var inputAge = $("#myAge").val();
-             console.log("Your age is: " + inputAge);
+             var inputMovie = $("#myMovieTitles").val();
+             console.log("Your movie is: " + inputMovie);
+             for (var n=0; n <movieTitles.length; n++) {
+               if (movieTitles[n].name === inputMovie) {
+                 theaters = movieTitles[n].theaters;
+               }
+             }
+             console.log ("Theaters = " + theaters);
+             showTheaterNames(theaters);
+
+             for (var n=0; n <theaterNames.length; n++) {
+               if (theaterNames[n].name === theaters[0]) {
+                 times = theaterNames[n].showtimes;
+               }
+             }
+             console.log ("Showtimes = " +times);
+             showShowtimes(times);
+
+             // show the right showtimes where theaterN.showtimes is the new list
+             // how to access filmN and theaterN???
+
          });
       });
 
@@ -286,6 +311,25 @@ function showTheaterNames(){
          });
       });
 
+      $(function() {
+         $("#theaterNamesChoice select").change(function()
+         {
+          var movies = [];
+          console.log("The select changed!");
+          var inputTheater = $("#mytheaterNames").val();
+          console.log("Your theater is: " + inputTheater);
+
+          for (var n=0; n <theaterNames.length; n++) {
+            if (theaterNames[n].name === inputTheater) {
+             movies = theaterNames[n].movies;
+            }
+          }
+           console.log ("Movies = " + movies);
+          showMovies(inputTheater);
+
+         });
+      });
+
       // $("#myAge").submit(function(event) {
     $("form#ageChoice").submit(function(event) {
       event.preventDefault();
@@ -293,23 +337,6 @@ function showTheaterNames(){
       alert("Got here!");
       console.log("Your age is: " + inputAge);
     });
-      //
-      //   resetFields();
-      // });
-
-    // $("#add-address").click(function() {
-    //   newAddresses();
-    // });
-    //
-    // $("form#new-contact").submit(function(event) {
-    //   event.preventDefault();
-    //   var inputtedFirstName = $("input#new-first-name").val();
-    //   });
-    //
-    //   resetFields();
-    // });
-
-    // var ticket = new Ticket("Jumanji", "7.50", "13.00", "8.00", "");
   });
 
 // Data
@@ -338,16 +365,3 @@ theater3 = new Theater("REGAL HILLTOP 9 CINEMA", ["Jumanji", "Maze Runner"], "90
 theaterNames.push(theater3);
 theater4 = new Theater("CENTURY 16 EASTPORT PLAZA", ["Jumanji", "Maze Runner", "The Post", "Paddington 2"], "90 Mollala Ave., Oregon City, OR, 97169", ["16:00", "18:00", "20:00", "22:00", "24:00"], false);
 theaterNames.push(theater4);
-
-
-
-["CENTURY CLACKAMAS TOWN CENTER", "OAK GROVE 8 CINEMAS", "MORELAND THEATRE", "REGAL HILLTOP 9 CINEMA", "CENTURY 16 EASTPORT PLAZA"]
-
-
-
-// this.name = name;
-// this.rating = rating;
-// this.long = long;
-// this.short = short;
-// this.newRelease = newRelease;  // boolean
-// this.theaters = theaters; // array of Theaters it's playing
